@@ -1,0 +1,29 @@
+name: Generate Doxygen Documentation
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Generate Doxygen documentation
+      run: |
+        # Instalează Doxygen
+        sudo apt-get update -y
+        sudo apt-get install -y doxygen
+        
+        # Generează documentația Doxygen
+        doxygen Doxyfile
+
+    - name: Archive documentation
+      uses: actions/upload-artifact@v2
+      with:
+        name: doxygen-docs
+        path: ${{ github.workspace }}/path/to/doxygen/output/folder
